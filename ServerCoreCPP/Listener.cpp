@@ -6,7 +6,8 @@ void Listener::Start()
 	listen_socket_ = SocketUtils::CreateSocket();
 	if (listen_socket_ == INVALID_SOCKET)
 	{
-		std::cout << "invalid listen socket" << std::endl;
+		std::cout << "[Listener] 리슨 소켓 생성에 실패했습니다." << std::endl;
+		return;
 	}
 
 	IocpObject::Initialize();
@@ -86,7 +87,6 @@ void Listener::ProcessAccept(IocpEventAccept* accept_event)
 	// 속성을 상속하지 않는다. 따라서 별도로 속성을 상속하도록 지정해주어야 한다.
 	if (SocketUtils::SetUpdateAcceptContext(session->GetSessionSocket(), listen_socket_) == false)
 	{
-		std::cout << "SetSetUpdateAcceptContext() failed.." << WSAGetLastError() << std::endl;
 		RegisterAccept(accept_event);
 		return;
 	}
@@ -95,7 +95,6 @@ void Listener::ProcessAccept(IocpEventAccept* accept_event)
 	int size_of_address = sizeof(client_address);
 	if (getpeername(session->GetSessionSocket(), (SOCKADDR*)&client_address, &size_of_address) == SOCKET_ERROR)
 	{
-		std::cout << "getpeername() failed.." << WSAGetLastError() << std::endl;
 		RegisterAccept(accept_event);
 		return;
 	}
@@ -103,7 +102,7 @@ void Listener::ProcessAccept(IocpEventAccept* accept_event)
 	session->SetAddress(NetAddress(client_address));
 
 	char address[100];
-	printf("[TCP 서버] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
+	printf("[Listener] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 		inet_ntop(AF_INET, &client_address, address, 100), ntohs(client_address.sin_port));
 
 	session->ProcessConnect();
@@ -123,7 +122,7 @@ void Listener::Dispatch(IocpEvent* iocp_event, int num_of_bytes)
 
 	if (num_of_bytes != 0)
 	{
-		std::cout << "recv bytes with accept : " << num_of_bytes << endl;
+		std::cout << "[Listener] Accept와 동시에 수신 : " << num_of_bytes << "bytes" << std::endl;
 	}
 
 	switch (iocp_event->GetType())

@@ -29,7 +29,7 @@ bool SessionManager::GetSessionId(SessionRef session)
 
 		if (++traverse_count == max_traverse_count)
 		{
-			std::cout << "모든 세션 ID가 사용 중입니다." << std::endl;
+			std::cout << "[SessionManager] 모든 세션 ID가 사용 중입니다." << std::endl;
 			break;
 		}
 	}
@@ -87,7 +87,7 @@ int SessionManager::AddSession(SessionRef session)
 	}
 	else
 	{
-		std::cout << "세션 아이디를 설정하는데 실패했습니다." << std::endl;
+		std::cout << "[SessionManager] 세션 아이디를 설정하는데 실패했습니다." << std::endl;
 		return -1;
 	}
 }
@@ -109,7 +109,7 @@ void SessionManager::RemoveSession(int session_id)
 
 void SessionManager::DisplaySessionList()
 {
-	std::cout << "=====Display=====\n" << std::endl;
+	std::cout << "[SessionManager] 세션 ID 리스트" << std::endl;
 	{
 		EnterCriticalSection(&lock_session_list_);
 		for (auto it = session_list_.begin(); it != session_list_.end(); it++)

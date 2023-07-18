@@ -20,7 +20,6 @@ SessionRef Service::CreateSession()
         return nullptr;
     }
 
-    // session_manager_->DisplaySessionList();
     return session;
 }
 

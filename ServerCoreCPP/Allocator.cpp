@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Allocator.h"
+#include "Memory.h"
 
 void* BaseAllocator::Allocate(unsigned int size)
 {
@@ -13,7 +14,7 @@ void BaseAllocator::Release(void* ptr)
 
 void* StompAllocator::Allocate(unsigned int size)
 {
-    int page_count = (PAGE_SIZE + size) / size;
+    int page_count = (size + PAGE_SIZE - 1) / PAGE_SIZE;
     int data_offset = page_count * PAGE_SIZE - size;
     void* base_address = VirtualAlloc(NULL, page_count * PAGE_SIZE, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     return static_cast<void*>(static_cast<char*>(base_address) + data_offset);
