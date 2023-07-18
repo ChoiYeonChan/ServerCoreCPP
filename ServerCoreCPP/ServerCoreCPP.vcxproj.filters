@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{aa8406e4-18ad-471f-a0fb-a25bd8b8aaba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{adc0f83c-8681-4d99-9e09-35fbd46ecc0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Memory">
+      <UniqueIdentifier>{318ac927-30b3-4bdc-baab-8bbe7ca1c328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{15d0e64d-207d-47e8-9c55-cbb1438e4931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Socket">
+      <UniqueIdentifier>{46f56f75-c2fc-4253-8504-5ab82fc2dbdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Iocp">
+      <UniqueIdentifier>{7e9bb223-9552-4b20-a8eb-d310b0b4392a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{39c7195a-ace0-4ee8-8110-cb5bab93fb48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Service">
+      <UniqueIdentifier>{27793e75-036e-4ece-895f-9bce95cb79eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Session">
+      <UniqueIdentifier>{69d0f0ea-5c1b-499f-a6c3-65dd957706aa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LockFreeStack.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="LockFreeQueue.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryPool.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreGlobal.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Allocator.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketUtils.cpp">
+      <Filter>Network\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="NetAddress.cpp">
+      <Filter>Network\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryStream.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpEvent.cpp">
+      <Filter>Network\Iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpObject.cpp">
+      <Filter>Network\Iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="IocpManager.cpp">
+      <Filter>Network\Iocp</Filter>
+    </ClCompile>
+    <ClCompile Include="Service.cpp">
+      <Filter>Network\Service</Filter>
+    </ClCompile>
+    <ClCompile Include="Session.cpp">
+      <Filter>Network\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="RecvBuffer.cpp">
+      <Filter>Network\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="SendBuffer.cpp">
+      <Filter>Network\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectPool.cpp">
+      <Filter>Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="Listener.cpp">
+      <Filter>Network\Socket</Filter>
+    </ClCompile>
+    <ClCompile Include="SessionManager.cpp">
+      <Filter>Network\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="CoreTLS.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="LockFreeStack.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="LockFreeQueue.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryPool.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="CorePch.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreGlobal.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Allocator.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryMacro.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketUtils.h">
+      <Filter>Network\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="NetAddress.h">
+      <Filter>Network\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="MyMacro.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryStream.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTypeDef.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpEvent.h">
+      <Filter>Network\Iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpObject.h">
+      <Filter>Network\Iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="IocpManager.h">
+      <Filter>Network\Iocp</Filter>
+    </ClInclude>
+    <ClInclude Include="Service.h">
+      <Filter>Network\Service</Filter>
+    </ClInclude>
+    <ClInclude Include="Session.h">
+      <Filter>Network\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="RecvBuffer.h">
+      <Filter>Network\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="SendBuffer.h">
+      <Filter>Network\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectPool.h">
+      <Filter>Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>Network\Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="SessionManager.h">
+      <Filter>Network\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreTLS.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
