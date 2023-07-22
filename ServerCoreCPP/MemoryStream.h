@@ -14,19 +14,24 @@ protected:
 	unsigned int space_;
 
 	bool is_allocated_;
+	bool is_open_;
+
+	BufferChunkRef owner_ = nullptr;
 
 public:
 	MemoryStream();
-	MemoryStream(unsigned int buf_size);
+	MemoryStream(unsigned int buf_size, bool pooling = false);
 	MemoryStream(char* in_buffer, unsigned int in_buf_size, unsigned int buf_size = DEFAULT_BUF_SIZE, bool copy = false);
 
-	~MemoryStream();
+	virtual ~MemoryStream();
 
-	void SetBuffer(char* buffer, const unsigned int in_buf_size, const unsigned int buf_size);
+	// Buffer Pooling
+	void Open(int size);
+	void Close();
 
 	// Read & Write
 	bool OnRead(const unsigned int out_byte_count);
-	bool OnWrite(const unsigned int in_byte_count);	
+	bool OnWrite(const unsigned int in_byte_count);
 
 	void CleanUp();
 
@@ -38,11 +43,18 @@ public:
 	unsigned int GetSpace() const { return space_; }
 
 	char* GetDataSegment();
+
+	// temp
 	void Display();
 
 private:
 	bool AllocBuffer(const unsigned int buf_size);
+	void SetBuffer(char* buffer, const unsigned int in_buf_size, const unsigned int buf_size);
 };
+
+/**********************
+*     StreamReader
+***********************/
 
 class StreamReader
 {
@@ -67,6 +79,10 @@ StreamReader& StreamReader::operator>>(T& dest)
 	Read<T>(&dest);
 	return *this;
 }
+
+/**********************
+*     StreamWriter
+***********************/
 
 class StreamWriter
 {
@@ -107,3 +123,47 @@ StreamWriter& StreamWriter::operator<<(T&& source)
 	Write<T>(&source);
 	return *this;
 }
+
+/************************
+*	  Buffer Pooling
+*************************/
+
+class BufferChunk : public enable_shared_from_this<BufferChunk>
+{
+	enum
+	{
+		BUFFER_CHUNK_SIZE = 819200
+	};
+
+private:
+	std::array<char, BUFFER_CHUNK_SIZE> buffer_ = {};
+	bool is_open_ = false;
+	int used_size_ = 0;
+
+public:
+	BufferChunk() = default;
+	~BufferChunk() = default;
+
+	void Reset();
+	char* Open(int alloc_size);
+	void Close(int write_size);
+
+	char* Buffer() { return &buffer_[used_size_]; }
+	int FreeSize() { return buffer_.size() - used_size_; }
+	bool IsOpen() { return is_open_; }
+};
+
+class BufferManager
+{
+private:
+	CRITICAL_SECTION lock_;
+	std::vector<BufferChunkRef> buffer_chunk_list_;
+
+public:
+	BufferManager();
+
+	BufferChunkRef Pop();
+	void Push(BufferChunkRef buffer);
+
+	static void PushGlobal(BufferChunk* buffer);
+};
