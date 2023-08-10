@@ -22,7 +22,10 @@ void Session::Start()
 {
 	if (socket_ != INVALID_SOCKET)
 	{
-		ProcessConnect();
+		IocpObject::Initialize();
+
+		is_connected_.store(true);
+		RegisterRecv();
 	}
 }
 
@@ -64,10 +67,9 @@ void Session::Dispatch(IocpEvent* iocp_event, int num_of_bytes)
 void Session::ProcessConnect()
 {
 	IocpObject::Initialize();
-	
+
 	is_connected_.store(true);
 	OnConnect();
-	RegisterRecv();
 }
 
 void Session::Disconnect()
@@ -131,6 +133,10 @@ void Session::RegisterRecv()
 			SocketIOErrorHandler(error_code);
 		}
 	}
+	else
+	{
+		ProcessRecv(num_of_bytes);
+	}
 }
 
 void Session::ProcessRecv(int num_of_bytes)
@@ -174,16 +180,16 @@ int Session::OnRecv(char* buffer, int length)
 {
 	/*
 	SendBufferRef send_buffer = ObjectPool<SendBuffer>::MakeShared(buffer, length, length);
-	Send(send_buffer);	// Echo			
+	Send(send_buffer);	// Echo
 	*/
-	
+
 	SendBufferRef send_buffer = ObjectPool<SendBuffer>::MakeShared();
 	send_buffer->Open(length);
 	memcpy_s(send_buffer->GetBufferRear(), length, buffer, length);
-	send_buffer->OnWrite(length);	
+	send_buffer->OnWrite(length);
 	send_buffer->Close();
 	Send(send_buffer);	// Echo
-	
+
 	delete buffer;
 	return length;
 }
@@ -244,10 +250,8 @@ void Session::RegisterSend()
 		WSABUF wsabuf;
 		wsabuf.buf = buffer->GetBufferFront();
 		wsabuf.len = buffer->GetLength();
-		// std::cout << buffer->GetLength() << "send" << std::endl;
 		iocp_event_send_.wsabufs_.push_back(wsabuf);
 	}
-
 	DWORD num_of_bytes = 0, flags = 0;
 	if (WSASend(socket_, iocp_event_send_.wsabufs_.data(), iocp_event_send_.wsabufs_.size(), &num_of_bytes, flags, (LPWSAOVERLAPPED)&iocp_event_send_, nullptr) == SOCKET_ERROR)
 	{
@@ -255,8 +259,14 @@ void Session::RegisterSend()
 		if (error_code != WSA_IO_PENDING)
 		{
 			iocp_event_send_.ResetOwner();
+			iocp_event_send_.send_buffer_list_.clear();
+			iocp_event_send_.wsabufs_.clear();
 			SocketIOErrorHandler(error_code);
 		}
+	}
+	else
+	{
+		ProcessSend(num_of_bytes);
 	}
 }
 

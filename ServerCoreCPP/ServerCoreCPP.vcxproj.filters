@@ -96,6 +96,9 @@
     <ClCompile Include="CoreTLS.cpp">
       <Filter>Main</Filter>
     </ClCompile>
+    <ClCompile Include="Connector.cpp">
+      <Filter>Network\Socket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LockFreeStack.h">
@@ -175,6 +178,9 @@
     </ClInclude>
     <ClInclude Include="CoreTLS.h">
       <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Connector.h">
+      <Filter>Network\Socket</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

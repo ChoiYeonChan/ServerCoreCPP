@@ -1,5 +1,7 @@
 #pragma once
-#include "Service.h"
+
+#include <memory>
+class Service;
 
 class IocpObject : public std::enable_shared_from_this<IocpObject>
 {
@@ -13,7 +15,7 @@ public:
 	IocpObject(ServiceRef service) : service_(service) { }
 	virtual ~IocpObject() { }
 
-	virtual void Initialize() { service_->RegisterForIocp(this); }
+	virtual void Initialize();
 
 	virtual void Start() abstract;
 	virtual void Close() abstract;

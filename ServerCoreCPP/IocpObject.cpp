@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "IocpObject.h"
 
+void IocpObject::Initialize()
+{ 
+	service_->RegisterForIocp(this); 
+}
+
 void IocpObject::SocketIOErrorHandler(int error_code)
 {
 	switch (error_code)

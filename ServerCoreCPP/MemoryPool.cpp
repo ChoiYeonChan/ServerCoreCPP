@@ -88,17 +88,16 @@ void mymp::LockFreeStack::Clear()
 
 void mymp::MemoryPool::Push(BlockHeader* header)
 {
-	if (header->size != alloc_size_ || header->code != BlockHeader::CURRENT_ALLOC)
+	if (header->code != BlockHeader::CURRENT_ALLOC)
 	{
-		std::cout << header->size << ", " << alloc_size_ << ", " << header->code << ", " << BlockHeader::CURRENT_ALLOC << std::endl;
-		std::cout << "잘못된 메모리 해제입니다." << std::endl;
+		std::cout << "[MemoryPool] 잘못된 메모리 해제입니다." << std::endl;
 		return;
 	}
 	else
 	{
 		if (InterlockedCompareExchange16(&header->code, BlockHeader::CURRENT_RELEASE, BlockHeader::CURRENT_ALLOC) != BlockHeader::CURRENT_ALLOC)
 		{
-			std::cout << "이미 해제된 메모리입니다." << std::endl;
+			std::cout << "[MemoryPool] 중복 메모리 해제 시도입니다." << std::endl;
 			return;
 		}
 		else
@@ -117,15 +116,15 @@ void mymp::MemoryPool::Pop(BlockHeader*& header)
 		header = (BlockHeader*)_aligned_malloc(alloc_size_ + sizeof(mymp::BlockHeader), 16);
 		if (header == nullptr)
 		{
-			std::cout << "메모리 할당에 실패하셨습니다. (header)" << std::endl;
+			std::cout << "[MemoryPool] 메모리 할당에 실패하셨습니다." << std::endl;
 			return;
 		}
 	}
 	else
 	{
-		if (header->size != alloc_size_ || header->code != BlockHeader::CURRENT_RELEASE)
+		if (header->code != BlockHeader::CURRENT_RELEASE)
 		{
-			std::cout << "메모리풀이 오염되었습니다." << std::endl;
+			std::cout << "[MemoryPool] 메모리풀이 오염되었습니다." << std::endl;
 			// CRASH
 			return;
 		}

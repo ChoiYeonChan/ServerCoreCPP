@@ -63,6 +63,7 @@ private:
 
 public:
 	StreamReader(MemoryStream* stream) : stream_(stream) { }
+	StreamReader(std::shared_ptr<MemoryStream> stream) : stream_(stream.get()) { }
 
 	template <typename T>
 	bool Read(T* dest) { return Read(dest, sizeof(T)); }
@@ -91,6 +92,7 @@ private:
 
 public:
 	StreamWriter(MemoryStream* stream) : stream_(stream) { }
+	StreamWriter(std::shared_ptr<MemoryStream> stream) : stream_(stream.get()) { }
 
 	template <typename T>
 	bool Write(const T* source) { return Write(source, sizeof(T)); }
@@ -120,7 +122,7 @@ T* StreamWriter::Reserve(int count)
 template <typename T>
 StreamWriter& StreamWriter::operator<<(T&& source)
 {
-	Write<T>(&source);
+	Write<std::remove_reference_t<T>>(&source);
 	return *this;
 }
 

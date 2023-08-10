@@ -3,7 +3,7 @@
 
 MemoryStream::MemoryStream() :
 	buffer_(nullptr), front_(0), rear_(0),
-	capacity_(0), length_(0), space_(0), is_allocated_(false)
+	capacity_(0), length_(0), space_(0), is_allocated_(false), is_open_(false)
 {
 	
 }

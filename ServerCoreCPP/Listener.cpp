@@ -105,7 +105,7 @@ void Listener::ProcessAccept(IocpEventAccept* accept_event)
 	printf("[Listener] 클라이언트 접속: IP 주소=%s, 포트 번호=%d\n",
 		inet_ntop(AF_INET, &client_address, address, 100), ntohs(client_address.sin_port));
 
-	session->ProcessConnect();
+	session->Start();
 
 	RegisterAccept(accept_event);
 }

@@ -8,6 +8,7 @@
 class Session : public IocpObject
 {
 	friend class Listener;
+	friend class Connector;
 
 private:
 	SOCKET socket_;

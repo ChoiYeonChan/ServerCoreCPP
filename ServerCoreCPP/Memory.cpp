@@ -46,6 +46,21 @@ Memory::Memory()
 	}
 
 	/*
+	std::cout << "pool table" << std::endl;
+	for (int i = 0; i <= 4096; i++)
+	{
+		std::cout << i << " : " << pool_table_[i]->AllocSize() << std::endl;
+	}
+
+	std::cout << std::endl;
+	std::cout << std::endl;
+
+	std::cout << "map index" << std::endl;
+	for (int i = 0; i <= 4096; i++)
+	{
+		std::cout << i << " : " << map_index_[i] << std::endl;
+	}
+
 	for (int i = 0; i <= 4096; i++)
 	{
 		if (map_index_[i] != pool_table_[i]->AllocSize())
@@ -69,7 +84,7 @@ void* Memory::Allocate(unsigned int size)
 {
 	if (size <= 0)
 	{
-		std::cout << "잘못된 할당 요청입니다." << std::endl;
+		std::cout << "[Memory] 잘못된 할당 요청입니다." << std::endl;
 		return nullptr;
 	}
 
@@ -87,11 +102,11 @@ void* Memory::Allocate(unsigned int size)
 
 	if (header == nullptr)
 	{
-		std::cout << "메모리 할당에 실패했습니다. (header)" << std::endl;
+		std::cout << "[Memory] 메모리 할당에 실패했습니다." << std::endl;
 		return nullptr;
 	}
 
-	return mymp::BlockHeader::AttachHeader(header, map_index_[size]);
+	return mymp::BlockHeader::AttachHeader(header, size);
 }
 
 void Memory::Release(void* ptr)
@@ -101,13 +116,14 @@ void Memory::Release(void* ptr)
 	short alloc_size = header->size;
 	if (alloc_size <= 0)
 	{
-		std::cout << "잘못된 메모리 해제입니다." << alloc_size <<  std::endl;
+		std::cout << "[Memory] 잘못된 메모리 해제입니다." << alloc_size <<  std::endl;
 		// CRASH
 		return;
 	}
 
 	if (alloc_size > MAX_ALLOC_SIZE)
 	{
+		std::cout << "[Memory] MAX_ALLOC_SIZE free" << std::endl;
 		_aligned_free(header);
 	}
 	else

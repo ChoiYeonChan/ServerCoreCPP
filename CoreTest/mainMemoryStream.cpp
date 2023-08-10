@@ -8,58 +8,25 @@ double func()
 
 int main() 
 {
+	int a = 1;
+	int b = 2;
+	int c = 3;
+	
+	int d = 0;
+	int e = 0;
+	int f = 0;
 	MemoryStream stream(30);
-	double a = 0.0f;
-	double b = 0.0f;
-	double c = 0.0f;
-	int myarray[3] = { 1, 2, 3 };
 	StreamWriter writer(&stream);
 
-	double* ptr = writer.Reserve<double>(2);
-	stream.Display();
-	std::cout << "\n";
-
-	writer << (double)4.5f;
-	stream.Display();
-	std::cout << "\n";
-
-	*ptr = 4.1;
-	stream.Display();
-	*(ptr + 1) = 4.2;
-	stream.Display();
-	std::cout << "\n";
+	writer << a << b << c;
 
 	StreamReader reader(&stream);
-	reader >> a;
-	reader >> b;
-	reader >> c;
+	
+	reader >> e >> d >> f;
+	
+	std::cout << e << d << f << std::endl;
 
 	stream.Display();
-	std::cout << a << " " << b << " " << c << std::endl;
 
-	stream.CleanUp();
-	stream.Display();
-
-	MemoryStream stream2((char*)(myarray), 12, 30, true);
-	StreamReader reader2(&stream2);
-	stream2.Display();
-	int a2, b2, c2 = 0;
-	reader2 >> a2;
-	reader2 >> b2;
-	reader2 >> c2;
-	stream2.Display();
-	std::cout << a2 << " " << b2 << " " << c2 << std::endl;
-
-	stream.SetBuffer((char*)(myarray), 12, 30);
-	stream.Display();
-	int a3, b3, c3 = 0;
-	reader >> a3;
-	reader >> b3;
-	reader >> c3;
-	stream.Display();
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << std::endl;
-	std::cout << a3 << " " << b3 << " " << c3 << std::endl;
 	return 0;
 }
